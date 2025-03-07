@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Card {
+  id                String    @id
+  name              String
+  lang              String    @default("en")
+  released_at       DateTime?
+  mana_cost         String?
+  cmc               Float?
+  type_line         String?
+  oracle_text       String?
+  power             String?
+  toughness         String?
+  colors            String[]
+  color_identity    String[]
+  set               String
+  set_name          String
+  rarity            String
+  flavor_text       String?
+  artist            String?
+  image_uri_normal  String?
+  image_uri_small   String?
+  price_usd         Float?
+  price_usd_foil    Float?
+  legalities        Json?
+}
