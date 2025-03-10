@@ -9,7 +9,7 @@ dotenv.config();
 const prisma = new PrismaClient();
 const SCRYFALL_API = 'https://api.scryfall.com';
 
-async function fetchCards(url = `${SCRYFALL_API}/cards/search?q=set:dom&order=set`) {
+async function fetchCards(url = `${SCRYFALL_API}/cards/search?q=set:dft&order=set`) {
   try {
     console.log(`Fetching cards from: ${url}`);
     const response = await axios.get(url);
@@ -72,7 +72,7 @@ async function ingestCards() {
       // Check if there are more pages
       nextUrl = data.has_more ? data.next_page : null;
       
-      // Respect Scryfall's rate limiting
+      // Respect Scryfall's rate limiting (10 requests per second on average)
       if (nextUrl) {
         await new Promise(resolve => setTimeout(resolve, 100));
       }

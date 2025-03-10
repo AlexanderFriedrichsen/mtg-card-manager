@@ -1,7 +1,9 @@
 import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
-import { authMiddleware } from './middleware/auth';
+import { authenticate } from './middleware/auth';
+// index keeps track of all the routes and exports befere here
+import { cardRoutes } from './routes';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -9,6 +11,9 @@ const prisma = new PrismaClient();
 // Middleware
 app.use(express.json());
 app.use(cors());
+
+// Card routes
+app.use('/api/cards', cardRoutes);
 
 // Simple health check route
 app.get('/health', (req, res) => {
@@ -28,7 +33,7 @@ app.get('/db-test', async (req, res) => {
 });
 
 // Protected route example
-app.get('/protected', authMiddleware, (req, res) => {
+app.get('/protected', authenticate, (req, res) => {
   res.json({ status: 'ok', message: 'You accessed a protected route' });
 });
 
