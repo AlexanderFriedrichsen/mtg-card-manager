@@ -33,10 +33,11 @@ npm run dev
 
 http://localhost:3000/health
 
+npm run ingest
 
 
 Whenever I change schema.prisma , rerun npx prisma generate to update client (which is a code layer for code completion/safety layer)
 
 npx prisma studio to open the localhost GUI editor
 
-pgadmin4 application
+pgadmin4 application let's view postgress DB directly

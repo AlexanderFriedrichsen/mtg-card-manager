@@ -2,8 +2,13 @@ import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import { authenticate } from './middleware/auth';
+import dotenv from 'dotenv';
 // index keeps track of all the routes and exports befere here
 import { cardRoutes } from './routes';
+import { userRoutes } from './routes';
+
+// is this the best place to put this?
+dotenv.config();
 
 const app = express();
 const prisma = new PrismaClient();
@@ -14,6 +19,9 @@ app.use(cors());
 
 // Card routes
 app.use('/api/cards', cardRoutes);
+
+// User routes
+app.use('/api/users', userRoutes);
 
 // Simple health check route
 app.get('/health', (req, res) => {

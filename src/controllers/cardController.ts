@@ -17,7 +17,7 @@ export const getAllCards = async (req: express.Request, res: express.Response) =
     }    
 }
 
-// query parameter e.g. /cards/search?name=Liliana&type=planeswalker&sortBy=name&sortOrder=desc
+// query parameter e.g. /cards/search?name=Aetherspark&type=planeswalker&sortBy=name&sortOrder=desc
 export const searchCards = async (req: Request, res: Response) => {
     try {
         const { 
@@ -120,7 +120,7 @@ export const getCardsByType = async (req: Request, res: Response) => {
             } 
         });
         
-        console.log(`Found ${cards.length} cards with type: ${type}`);
+        //console.log(`Found ${cards.length} cards with type: ${type}`);
         res.json(cards);
     } catch (error) {
         console.error('Error fetching cards by type:', error);

@@ -12,7 +12,6 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
 model Card {
   id                String    @id
   name              String
@@ -36,4 +35,71 @@ model Card {
   price_usd         Float?
   price_usd_foil    Float?
   legalities        Json?
+  collections       CollectionCard[]
+  decks             DeckCard[]
 }
+
+model User {
+  id                String    @id @default(uuid())
+  username          String    @unique
+  email             String    @unique
+  password          String    // This will store the hashed password, not plaintext
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Relationships
+  collections       Collection[]
+  decks             Deck[]
+}
+
+model Collection {
+  id                String    @id @default(uuid())
+  name              String
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Relationships
+  user              User      @relation(fields: [userId], references: [id])
+  userId            String
+  cards             CollectionCard[]
+}
+
+model CollectionCard {
+  id                String    @id @default(uuid())
+  quantity          Int       @default(1)
+  
+  // Relationships
+  collection        Collection @relation(fields: [collectionId], references: [id])
+  collectionId      String
+  card              Card      @relation(fields: [cardId], references: [id])
+  cardId            String
+
+  @@unique([collectionId, cardId])
+}
+
+model Deck {
+  id                String    @id @default(uuid())
+  name              String
+  description       String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  // Relationships
+  user              User      @relation(fields: [userId], references: [id])
+  userId            String
+  cards             DeckCard[]
+}
+
+model DeckCard {
+  id                String    @id @default(uuid())
+  quantity          Int       @default(1)
+  
+  // Relationships
+  deck              Deck      @relation(fields: [deckId], references: [id])
+  deckId            String
+  card              Card      @relation(fields: [cardId], references: [id])
+  cardId            String
+
+  @@unique([deckId, cardId])
+}
+
