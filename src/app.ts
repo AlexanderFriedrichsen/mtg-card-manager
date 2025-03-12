@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
-import { authMiddleware } from './middleware/auth';
+import { authenticate } from './middleware/auth';
 
 const app = express();
 const prisma = new PrismaClient();
@@ -28,7 +28,7 @@ app.get('/db-test', async (req, res) => {
 });
 
 // Protected route example
-app.get('/protected', authMiddleware, (req, res) => {
+app.get('/protected', authenticate, (req, res) => {
   res.json({ status: 'ok', message: 'You accessed a protected route' });
 });
 
